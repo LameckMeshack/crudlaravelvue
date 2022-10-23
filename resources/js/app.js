@@ -3,14 +3,13 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-// import VueRouter from 'vue-router';
 
 
 
+import {createApp} from 'vue';
 import axios from 'axios';
-
+import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue';
-Vue.use(axios);
 
 
 import HomeComponent from './components/HomeComponent.vue';
@@ -41,17 +40,15 @@ const routes = [
   }
 ];
 
-const router = VueRouter.createRouter({
-    history: VueRouter.createWebHistory(),  
-    routes
-});
+const router = createRouter({
+    history: createWebHistory(),
+    routes, 
+  });
 
-const app = VueRouter.createApp({
-    router,
-    render: (h) => h(App)
-});
+  
 
-app.mount('#app');
+const app = createApp(App);
+// app.use(axios);
+app.use(router).mount('#app');
 
 
-// const app = new Vue(Vue.util.extend({ router })).$mount('#app');
