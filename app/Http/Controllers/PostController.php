@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PostCollection;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return new PostCollection(Post::all());
     }
 
     /**
@@ -25,7 +26,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = new post([
+            'title' => $request->title,
+            'body' => $request->body,
+        ]);
+
+        $post->save();
+
+        return response()->json('Post created!');
     }
 
     /**
@@ -34,9 +42,10 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($id)
     {
-        //
+        $post = Post::find($id);
+        return response()->json($post);
     }
 
     /**
@@ -46,9 +55,9 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
-        //
+        $post = Post::find($id);
     }
 
     /**
@@ -57,8 +66,10 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Post $id)
     {
-        //
+        $post = Post::find($id);
+        $post->delete();
+        return response()->json('Post deleted!');
     }
 }
